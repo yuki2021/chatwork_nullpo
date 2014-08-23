@@ -32,15 +32,26 @@ class PostRequest {
 
     private function requestWithRe($messageId) {
         die('reply function is not implemented yet');
-//        $this->request($this->getPostURL(), $this->getGaxtu(''));
+//        $this->request($this->getPostURL('messages'), 'POST', $this->getGaxtu(''));
     }
 
     private function requestWithTo($userId) {
-        $this->request($this->getPostURL(), $this->getGaxtu('[To:' . $userId . ']'));
+//        $body = $this->getGaxtu('[To:' . $userId . ']' . $this->getUserNameFromId($userId));
+        $body = $this->getGaxtu('[To:' . $userId . ']');
+        $this->request($this->getPostURL('messages'), 'POST', $body);
     }
 
-    private function getPostURL() {
-        return $this->baseURL . $this->roomId . '/messages';
+    private function getPostURL($type) {
+        $url = '';
+        switch ($type) {
+            case 'messages':
+                $url = $this->baseURL . $this->roomId . '/messages';
+                break;
+            case 'members':
+                $url = $this->baseURL . $this->roomId . '/members';
+                break;
+        }
+        return $url;
     }
 
     private function getGaxtu($anchor) {
@@ -48,7 +59,7 @@ class PostRequest {
         return $list[array_rand($list)];
     }
 
-    private function request($url, $body) {
+    private function request($url, $method, $body = '') {
         try {
             $request = new HTTP_Request2();
 
@@ -57,7 +68,12 @@ class PostRequest {
 
             $request->setUrl($url);
 
-            $request->setMethod(HTTP_Request2::METHOD_POST);
+            if (strtolower($method) == 'post') {
+                $request->setMethod(HTTP_Request2::METHOD_POST);
+            } elseif (strtolower($method) == 'get') {
+                $request->setMethod(HTTP_Request2::METHOD_GET);
+            }
+
             $request->setHeader($this->tokenHeaderKey, $this->token);
 
             $request->addPostParameter('body', $body);
@@ -70,6 +86,12 @@ class PostRequest {
         } catch (Exception $e) {
             die($e->getMessage());
         }
+    }
+
+    private function getUserNameFromId($Id) {
+        $response = json_decode($this->request($this->getPostURL('members'), 'GET'));
+        echo "\n\n ${response['name']} \n\n";
+        die('');
     }
 }
 
@@ -87,5 +109,5 @@ function getGatxuList($anchor) {
 }
 
 
-$pr = new PostRequest(getToken(), '23818946');
-$pr->load('641867');
+//$pr = new PostRequest(getToken(), '23818946');
+//$pr->load('641867');
