@@ -11,10 +11,11 @@ class PostRequest {
     private $token;
     private $tokenHeaderKey = 'X-ChatWorkToken';
     private $baseURL = 'https://api.chatwork.com/v1/rooms/';
-    private $roomId = '23818946';
+    private $roomId = '';
 
-    public function __construct($token) {
+    public function __construct($token, $roomId) {
         $this->token = $token;
+        $this->roomId = $roomId;
     }
 
     public function load($userId, $messageId = null) {
@@ -27,8 +28,6 @@ class PostRequest {
         } else {
             die('error occurred');
         }
-
-//        $this->request($userId, $messageId);
     }
 
     private function requestWithRe($messageId) {
@@ -47,7 +46,6 @@ class PostRequest {
     private function getGaxtu($anchor) {
         $list = getGatxuList($anchor);
         return $list[array_rand($list)];
-//        return $list[0];
     }
 
     private function request($url, $body) {
@@ -59,7 +57,6 @@ class PostRequest {
 
             $request->setUrl($url);
 
-//            $request->setMethod(HTTP_Request2::METHOD_GET);
             $request->setMethod(HTTP_Request2::METHOD_POST);
             $request->setHeader($this->tokenHeaderKey, $this->token);
 
@@ -90,5 +87,5 @@ function getGatxuList($anchor) {
 }
 
 
-$pr = new PostRequest(getToken());
+$pr = new PostRequest(getToken(), '23818946');
 $pr->load('641867');
