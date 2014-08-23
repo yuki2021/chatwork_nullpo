@@ -1,0 +1,21 @@
+{
+    // Require!
+    "manifest_version": 2,
+    "name": "insjs",
+    "version": "1.0",
+
+    // Recommend.
+    "description": "My first extension.",
+    "icons": {
+        "16": "icons/icon_16x16.png",
+        "48": "icons/icon_48x48.png",
+        "128": "icons/icon_128x128.png"
+    },
+
+    "content_scripts": [
+        {
+            "matches": ["https://*.chatwork.com/*"],
+            "js": ["jquery.js", "sample.js"]
+        }
+    ]
+}
