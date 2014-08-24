@@ -1,0 +1,8 @@
+{
+	"require": {
+		"pear/http_request2": "dev-trunk",
+		"pear/net_url2": "2.0.*@dev",
+		"pear/pear_exception": "1.0.*@dev",
+		"sunra/php-simple-html-dom-parser": "dev-master"
+	}
+}
