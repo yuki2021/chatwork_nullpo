@@ -36,8 +36,8 @@ class crowler {
         $httpRequestObj->setHeader('Connection', 'keep-alive');
         $httpRequestObj->setHeader('Referer', $url);
 
-        $httpRequestObj->addPostParameter('email', 'nagata@ryukyu-i.co.jp');
-        $httpRequestObj->addPostParameter('password', 'yuki5752');
+        $httpRequestObj->addPostParameter('email', 'nobody@exmple.co.jp');
+        $httpRequestObj->addPostParameter('password', '*******');
 
         $response = $httpRequestObj->send();
         $cookie = $response->getCookies();
